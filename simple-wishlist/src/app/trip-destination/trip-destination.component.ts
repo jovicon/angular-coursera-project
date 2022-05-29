@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { TripDestination } from '../models/trip-destination.models';
 
 @Component({
   selector: 'app-trip-destination',
@@ -6,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./trip-destination.component.scss'],
 })
 export class TripDestinationComponent implements OnInit {
-  @Input() destination!: string;
+  @Input() destination!: TripDestination;
+  @HostBinding('attr.class') cssClass = 'col-md-4';
   public componentName: string;
 
   constructor() {

@@ -24,4 +24,14 @@ export class ListDestinationComponent implements OnInit {
     console.log('destinations: ', this.destinations);
     return false;
   }
+
+  public chosen(destination: TripDestination): void {
+    console.log('Chosen: ', destination);
+
+    this.destinations.forEach((dstntn: TripDestination) => {
+      dstntn.setSelected(false);
+    });
+
+    destination.setSelected(true);
+  }
 }

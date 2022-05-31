@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TripDestination } from '../models/trip-destination.models';
+import { DestinationApiClient } from '../models/destination-api-client.models';
 
 @Component({
   selector: 'app-list-destination',
@@ -7,31 +8,22 @@ import { TripDestination } from '../models/trip-destination.models';
   styleUrls: ['./list-destination.component.scss'],
 })
 export class ListDestinationComponent implements OnInit {
-  public destinations: TripDestination[];
+  @Output() onItemAdded: EventEmitter<TripDestination>;
 
-  constructor() {
-    this.destinations = [];
+  constructor(public destinationApiClient: DestinationApiClient) {
+    this.onItemAdded = new EventEmitter();
   }
 
   ngOnInit(): void {}
 
-  public save(name: string, url: string): boolean {
-    console.log(`Saving ${name} to ${url}`);
-    const tripDestination = new TripDestination(name, url);
-
-    this.destinations.push(tripDestination);
-
-    console.log('destinations: ', this.destinations);
-    return false;
+  public added(tripDestination: TripDestination): void {
+    this.destinationApiClient.add(tripDestination);
   }
 
   public chosen(destination: TripDestination): void {
-    console.log('Chosen: ', destination);
-
-    this.destinations.forEach((dstntn: TripDestination) => {
-      dstntn.setSelected(false);
+    this.destinationApiClient.getAll().forEach((dstny: TripDestination) => {
+      dstny.setSelected(false);
     });
-
     destination.setSelected(true);
   }
 }

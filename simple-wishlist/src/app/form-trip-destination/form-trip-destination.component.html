@@ -11,11 +11,24 @@
       placeholder="Ingresar nombre..."
       [formControl]="$any(fg).controls['name']"
     />
-    <div *ngIf="!$any(fg).controls['name'].valid">Nombre invalido!</div>
+    <!-- <div *ngIf="!$any(fg).controls['name'].valid">Nombre invalido!</div> -->
+
     <div *ngIf="$any(fg).controls['name'].hasError('required')">
       Nombre requerido!
     </div>
+
+    <div *ngIf="$any(fg).controls['name'].hasError('invalidName')">
+      Nombre invalido!
+    </div>
+
+    <div *ngIf="$any(fg).controls['name'].hasError('minLongName')">
+      nombre debe tener al menos {{ minLong }} caracteres de largo!
+    </div>
   </div>
+
+  <br />
+  <hr />
+
   <div class="form-group">
     <label for="url">Imagen Url</label>
     <input

@@ -11,6 +11,10 @@
       placeholder="Ingresar nombre..."
       [formControl]="$any(fg).controls['name']"
     />
+    <div *ngIf="!$any(fg).controls['name'].valid">Nombre invalido!</div>
+    <div *ngIf="$any(fg).controls['name'].hasError('required')">
+      Nombre requerido!
+    </div>
   </div>
   <div class="form-group">
     <label for="url">Imagen Url</label>
@@ -21,6 +25,9 @@
       placeholder="Ingresar url..."
       [formControl]="$any(fg).controls['url']"
     />
+    <div *ngIf="!$any(fg).controls['url'].valid">URL invalido!</div>
   </div>
-  <button type="submit" class="btn btn-primary">Guardar!</button>
+  <button type="submit" class="btn btn-primary" *ngIf="fg.valid">
+    Guardar!
+  </button>
 </form>

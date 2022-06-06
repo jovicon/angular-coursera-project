@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { TripDestination } from '../models/trip-destination.models';
 
@@ -14,7 +14,10 @@ export class FormTripDestinationComponent implements OnInit {
 
   constructor(fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
-    this.fg = fb.group({ name: [''], url: [''] });
+    this.fg = fb.group({
+      name: ['', Validators.required],
+      url: ['', Validators.required],
+    });
   }
 
   ngOnInit(): void {}

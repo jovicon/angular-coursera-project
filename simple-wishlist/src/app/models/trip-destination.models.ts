@@ -1,9 +1,16 @@
 export class TripDestination {
-  name: string;
-  imageUrl: string;
+  private selectec: boolean = false;
+  public services: string[];
 
-  constructor(name: string, imageUrl: string) {
-    this.name = name;
-    this.imageUrl = imageUrl;
+  constructor(public name: string, public imageUrl: string) {
+    this.services = ['pool', 'restaurant', 'bar'];
+  }
+
+  isSelected(): boolean {
+    return this.selectec;
+  }
+
+  setSelected(selected: boolean): void {
+    this.selectec = selected;
   }
 }

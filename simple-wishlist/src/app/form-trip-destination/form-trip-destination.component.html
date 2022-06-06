@@ -1,0 +1,46 @@
+<form
+  [formGroup]="fg"
+  (ngSubmit)="save(fg.controls['name'].value, fg.controls['url'].value)"
+>
+  <div class="form-group">
+    <label for="name">Nombre</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      placeholder="Ingresar nombre..."
+      [formControl]="$any(fg).controls['name']"
+    />
+    <!-- <div *ngIf="!$any(fg).controls['name'].valid">Nombre invalido!</div> -->
+
+    <div *ngIf="$any(fg).controls['name'].hasError('required')">
+      Nombre requerido!
+    </div>
+
+    <div *ngIf="$any(fg).controls['name'].hasError('invalidName')">
+      Nombre invalido!
+    </div>
+
+    <div *ngIf="$any(fg).controls['name'].hasError('minLongName')">
+      nombre debe tener al menos {{ minLong }} caracteres de largo!
+    </div>
+  </div>
+
+  <br />
+  <hr />
+
+  <div class="form-group">
+    <label for="url">Imagen Url</label>
+    <input
+      type="text"
+      class="form-control"
+      id="url"
+      placeholder="Ingresar url..."
+      [formControl]="$any(fg).controls['url']"
+    />
+    <div *ngIf="!$any(fg).controls['url'].valid">URL invalido!</div>
+  </div>
+  <button type="submit" class="btn btn-primary" *ngIf="fg.valid">
+    Guardar!
+  </button>
+</form>

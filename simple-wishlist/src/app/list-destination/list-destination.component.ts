@@ -9,9 +9,18 @@ import { DestinationApiClient } from '../models/destination-api-client.models';
 })
 export class ListDestinationComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<TripDestination>;
+  updates: string[] = [];
 
   constructor(public destinationApiClient: DestinationApiClient) {
     this.onItemAdded = new EventEmitter();
+
+    this.destinationApiClient.subscribeOnChange(
+      (destination: TripDestination | null) => {
+        destination !== null
+          ? this.updates.push(`${destination.name} is chosen`)
+          : null;
+      }
+    );
   }
 
   ngOnInit(): void {}
@@ -21,9 +30,11 @@ export class ListDestinationComponent implements OnInit {
   }
 
   public chosen(destination: TripDestination): void {
-    this.destinationApiClient.getAll().forEach((dstny: TripDestination) => {
-      dstny.setSelected(false);
-    });
-    destination.setSelected(true);
+    // this.destinationApiClient.getAll().forEach((dstny: TripDestination) => {
+    //   dstny.setSelected(false);
+    // });
+    // destination.setSelected(true);
+
+    this.destinationApiClient.choose(destination);
   }
 }

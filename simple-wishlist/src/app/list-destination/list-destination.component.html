@@ -26,4 +26,13 @@
       (clicked)="chosen($event)"
     ></app-trip-destination>
   </div>
+
+  <hr />
+
+  <div class="row row-flex">
+    <h5>Actividad</h5>
+    <ul>
+      <li *ngFor="let update of updates">{{ update }}</li>
+    </ul>
+  </div>
 </div>

@@ -17,9 +17,7 @@
         </span>
       </li>
     </ul>
-    <a href="#" class="btn-card" (click)="go()">Ir</a>
-    <span [style.display]="destination.isSelected()"> PREFERIDO </span>
-
+    <a class="btn-card" (click)="go()">Ir</a>
     <span *ngIf="destination.isSelected()">- PREFERIDO -</span>
 
     <a [routerLink]="['/destiny']">Ver Detalle</a>

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule as NgRxStoreModule, ActionReducerMap } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +13,13 @@ import { DestinationDetailComponent } from './destination-detail/destination-det
 import { FormTripDestinationComponent } from './form-trip-destination/form-trip-destination.component';
 
 import { DestinationApiClient } from './models/destination-api-client.models';
+import {
+  TripDestinationState,
+  reducerTripDestination,
+  initialState as initialTripDestinationState,
+  TripDestinationEffects,
+  TripDestinationActions,
+} from './models/destination-trips.state.model';
 
 const routes: Routes = [
   {
@@ -28,6 +37,18 @@ const routes: Routes = [
   },
 ];
 
+export interface AppState {
+  destinations: TripDestinationState;
+}
+
+const reducers: ActionReducerMap<AppState, TripDestinationActions> = {
+  destinations: reducerTripDestination,
+};
+
+const reducerInitialState = {
+  destinations: initialTripDestinationState,
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +63,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
+    NgRxStoreModule.forRoot(reducers, { initialState: reducerInitialState }),
+    EffectsModule.forRoot([TripDestinationEffects]),
   ],
   providers: [DestinationApiClient],
   bootstrap: [AppComponent],

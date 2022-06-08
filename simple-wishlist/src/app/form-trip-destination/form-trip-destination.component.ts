@@ -5,6 +5,15 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { fromEvent } from 'rxjs';
+import {
+  map,
+  filter,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
+import { ajax } from 'rxjs/ajax';
 
 import { TripDestination } from '../models/trip-destination.models';
 
@@ -17,6 +26,7 @@ export class FormTripDestinationComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<TripDestination>;
   fg: FormGroup;
   minLong: number = 5;
+  searchResults: string[] = [];
 
   constructor(fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
@@ -26,7 +36,21 @@ export class FormTripDestinationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const elementName = <HTMLInputElement>document.getElementById('name');
+    fromEvent(elementName, 'input')
+      .pipe(
+        map((e: Event) => (e.target as HTMLInputElement).value),
+        filter((text) => text.length > 2),
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(() => ajax('/assets/data.json'))
+      )
+      .subscribe((response: any) => {
+        console.log(response);
+        this.searchResults = response.response;
+      });
+  }
 
   save = (name: string, url: string): boolean => {
     const destination = new TripDestination(name, url);

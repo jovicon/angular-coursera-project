@@ -13,6 +13,10 @@
     />
     <!-- <div *ngIf="!$any(fg).controls['name'].valid">Nombre invalido!</div> -->
 
+    <ul>
+      <li *ngFor="let result of searchResults">{{ result }}</li>
+    </ul>
+
     <div *ngIf="$any(fg).controls['name'].hasError('required')">
       Nombre requerido!
     </div>

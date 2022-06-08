@@ -165,14 +165,29 @@ export class TripDestinationEffects {
   //   ));
 
   // ADD DESTINATION
-  addDestination$ = createEffect(
+  addDestination$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TripDestinationActionTypes.AddDestination),
+      map(
+        // (action: AddDestination) => new AddDestinationSuccess(action.payload),
+        (action: AddDestination) => {
+          console.log('addDestination');
+          return new SetFavorite(action.payload);
+        }
+      )
+    )
+  );
+
+  // SET FAVORITE
+  setFavorite$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(TripDestinationActionTypes.AddDestination),
-        map(
-          (action: AddDestination) => new AddDestinationSuccess(action.payload)
-        )
-      ),
-    { dispatch: false }
+        ofType(TripDestinationActionTypes.SetFavorite),
+        map((action: SetFavorite) => {
+          console.log('setFavorite');
+          return new SetFavoriteSuccess(action.payload);
+        })
+      )
+    // { dispatch: false } // do not dispatch any actions
   );
 }

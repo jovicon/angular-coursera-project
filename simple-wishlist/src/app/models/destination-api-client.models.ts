@@ -23,9 +23,12 @@ class DestinationApiClient {
   }
 
   choose(destination: TripDestination): void {
-    this.destinations.forEach((dstny: any) => {
+    this.destinations.forEach((dstny: TripDestination) => {
+      console.log('dstny: ', dstny);
       dstny.setSelected(false);
     });
+
+    console.log(this.destinations);
 
     destination.setSelected(true);
     this.current.next(destination);

@@ -64,7 +64,20 @@ const reducerInitialState = {
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    NgRxStoreModule.forRoot(reducers, { initialState: reducerInitialState }),
+    NgRxStoreModule.forRoot(reducers, {
+      initialState: reducerInitialState,
+      runtimeChecks: {
+        // strictStateImmutability and strictActionImmutability are enabled by default
+        // strictStateSerializability: true,
+        // strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true,
+        // if you want to change complexe objects and that we have. We need to disable these settings
+        // change strictStateImmutability, strictActionImmutability
+        strictStateImmutability: false, // set this to false
+        strictActionImmutability: false,
+      }, // <-- disable for production
+    }),
     EffectsModule.forRoot([TripDestinationEffects]),
     StoreDevtoolsModule.instrument({
       name: 'Simple Wishlist',

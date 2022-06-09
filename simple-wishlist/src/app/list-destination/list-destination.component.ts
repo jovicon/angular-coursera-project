@@ -5,6 +5,7 @@ import { AppState } from '../app.module';
 import {
   SetFavorite,
   AddDestination,
+  AddDestinationSuccess,
 } from '../models/destination-trips.state.model';
 import { TripDestination } from '../models/trip-destination.models';
 import { DestinationApiClient } from '../models/destination-api-client.models';
@@ -17,6 +18,7 @@ import { DestinationApiClient } from '../models/destination-api-client.models';
 export class ListDestinationComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<TripDestination>;
   updates: string[] = [];
+  all: TripDestination[] | null = null;
 
   constructor(
     public destinationApiClient: DestinationApiClient,
@@ -31,6 +33,10 @@ export class ListDestinationComponent implements OnInit {
         if (destinationState.favorite !== null)
           this.updates.push(`${destinationState.favorite.name} is chosen`);
       });
+
+    this.store
+      .select((state) => state.destinations)
+      .subscribe((destinations) => (this.all = destinations.destinations));
 
     // this.store
     //   .select('destinations')
@@ -53,11 +59,8 @@ export class ListDestinationComponent implements OnInit {
   ngOnInit(): void {}
 
   public added(tripDestination: TripDestination): void {
-    console.log('added');
-    this.destinationApiClient.add(tripDestination);
-    console.log('this.updates: ', this.updates);
-    this.store.dispatch(new AddDestination(tripDestination));
-    console.log('dispatched');
+    // this.destinationApiClient.add(tripDestination);
+    this.store.dispatch(new AddDestinationSuccess(tripDestination));
   }
 
   public chosen(destination: TripDestination): void {
@@ -68,5 +71,9 @@ export class ListDestinationComponent implements OnInit {
 
     this.destinationApiClient.choose(destination);
     this.store.dispatch(new SetFavorite(destination));
+  }
+
+  public getAll(): TripDestination[] {
+    return this.all ? this.all : [];
   }
 }

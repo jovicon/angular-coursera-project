@@ -32,6 +32,8 @@ export enum TripDestinationActionTypes {
   SetFavorite = '[TripDestination] Set Favorite',
   SetFavoriteSuccess = '[TripDestination] Set Favorite Success',
   SetFavoriteFailure = '[TripDestination] Set Favorite Failure',
+  VoteUp = '[TripDestination] Vote Up',
+  VoteDown = '[TripDestination] Vote Down',
 }
 
 export class LoadingDestinations implements Action {
@@ -93,6 +95,16 @@ export class SetFavoriteFailure implements Action {
   constructor(public payload: string) {}
 }
 
+export class VoteUp implements Action {
+  readonly type = TripDestinationActionTypes.VoteUp;
+  constructor(public payload: TripDestination) {}
+}
+
+export class VoteDown implements Action {
+  readonly type = TripDestinationActionTypes.VoteDown;
+  constructor(public payload: TripDestination) {}
+}
+
 export type TripDestinationActions =
   | LoadingDestinations
   | LoadingDestinationsSuccess
@@ -105,7 +117,9 @@ export type TripDestinationActions =
   | RemoveDestinationFailure
   | SetFavorite
   | SetFavoriteSuccess
-  | SetFavoriteFailure;
+  | SetFavoriteFailure
+  | VoteUp
+  | VoteDown;
 
 // REDUCERS
 export const reducerTripDestination = (
@@ -147,6 +161,31 @@ export const reducerTripDestination = (
       return { ...state, loading: false, favorite: action.payload };
     case TripDestinationActionTypes.SetFavoriteFailure:
       return { ...state, loading: false, favorite: null };
+    case TripDestinationActionTypes.VoteUp: {
+      const destination = action.payload;
+      destination.voteUp();
+      // const index = state.destinations.findIndex(
+      //   (destinationItem) => destinationItem.id === destination.id
+      // );
+      // const newDestinations: TripDestination[] = [...state.destinations];
+      // const cloneDestination = new TripDestination(
+      //   newDestinations[index].name,
+      //   newDestinations[index].imageUrl,
+      //   newDestinations[index].votes,
+      //   newDestinations[index].id
+      // );
+
+      // newDestinations[index] = cloneDestination;
+      return { ...state };
+    }
+    case TripDestinationActionTypes.VoteDown: {
+      const destination = action.payload;
+      destination.voteDown();
+      return {
+        ...state,
+      };
+    }
+
     default:
       return state;
   }

@@ -6,7 +6,21 @@ import {
   HostBinding,
   EventEmitter,
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../app.module';
+import { VoteUp, VoteDown } from '../models/destination-trips.state.model';
 import { TripDestination } from '../models/trip-destination.models';
+
+import { Injectable } from '@angular/core';
+import * as clone from 'clone';
+
+@Injectable({ providedIn: 'root' })
+export class ClonerService {
+  deepClone<T>(value: any): T {
+    return clone<T>(value);
+  }
+}
 
 @Component({
   selector: 'app-trip-destination',
@@ -21,7 +35,10 @@ export class TripDestinationComponent implements OnInit {
   @HostBinding('attr.class') cssClass = 'col-md-4';
   public componentName: string;
 
-  constructor() {
+  constructor(
+    private store: Store<AppState>,
+    private clonerService: ClonerService
+  ) {
     this.componentName = 'Trip Destination';
     this.clicked = new EventEmitter<TripDestination>();
   }
@@ -31,5 +48,19 @@ export class TripDestinationComponent implements OnInit {
   public go() {
     this.clicked.emit(this.destination);
     return true;
+  }
+
+  public voteUp(): boolean {
+    // const destionation = Object.assign({}, this.destination);
+    // const destination = this.clonerService.deepClone<TripDestination>(
+    //   this.destination
+    // );
+    this.store.dispatch(new VoteUp(this.destination));
+    return false;
+  }
+
+  public voteDown(): boolean {
+    this.store.dispatch(new VoteDown(this.destination));
+    return false;
   }
 }

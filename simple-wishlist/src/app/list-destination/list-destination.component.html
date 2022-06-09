@@ -20,7 +20,7 @@
 
   <div class="row row-flex">
     <app-trip-destination
-      *ngFor="let destination of destinationApiClient.getAll(); let i = index"
+      *ngFor="let destination of getAll(); let i = index"
       [destination]="destination"
       [position]="i + 1"
       (clicked)="chosen($event)"

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule as NgRxStoreModule, ActionReducerMap } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,8 +64,26 @@ const reducerInitialState = {
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    NgRxStoreModule.forRoot(reducers, { initialState: reducerInitialState }),
+    NgRxStoreModule.forRoot(reducers, {
+      initialState: reducerInitialState,
+      runtimeChecks: {
+        // strictStateImmutability and strictActionImmutability are enabled by default
+        // strictStateSerializability: true,
+        // strictActionSerializability: true,
+        strictActionWithinNgZone: true,
+        strictActionTypeUniqueness: true,
+        // if you want to change complexe objects and that we have. We need to disable these settings
+        // change strictStateImmutability, strictActionImmutability
+        strictStateImmutability: false, // set this to false
+        strictActionImmutability: false,
+      }, // <-- disable for production
+    }),
     EffectsModule.forRoot([TripDestinationEffects]),
+    StoreDevtoolsModule.instrument({
+      name: 'Simple Wishlist',
+      maxAge: 25,
+      logOnly: true,
+    }),
   ],
   providers: [DestinationApiClient],
   bootstrap: [AppComponent],

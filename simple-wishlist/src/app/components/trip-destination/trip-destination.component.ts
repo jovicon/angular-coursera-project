@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../app.module';
-import { VoteUp, VoteDown } from '../models/destination-trips.state.model';
-import { TripDestination } from '../models/trip-destination.models';
+import { AppState } from '../../app.module';
+import { VoteUp, VoteDown } from '../../models/destination-trips.state.model';
+import { TripDestination } from '../../models/trip-destination.models';
 
 import { Injectable } from '@angular/core';
 import * as clone from 'clone';

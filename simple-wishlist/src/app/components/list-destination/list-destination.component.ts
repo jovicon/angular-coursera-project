@@ -1,14 +1,14 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../app.module';
+import { AppState } from '../../app.module';
 import {
   SetFavorite,
   AddDestination,
   AddDestinationSuccess,
-} from '../models/destination-trips.state.model';
-import { TripDestination } from '../models/trip-destination.models';
-import { DestinationApiClient } from '../models/destination-api-client.models';
+} from '../../models/destination-trips.state.model';
+import { TripDestination } from '../../models/trip-destination.models';
+import { DestinationApiClient } from '../../models/destination-api-client.models';
 
 @Component({
   selector: 'app-list-destination',

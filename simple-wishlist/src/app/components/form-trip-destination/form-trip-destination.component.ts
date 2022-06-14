@@ -15,7 +15,7 @@ import {
 } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
-import { TripDestination } from '../models/trip-destination.models';
+import { TripDestination } from '../../models/trip-destination.models';
 
 @Component({
   selector: 'app-form-trip-destination',

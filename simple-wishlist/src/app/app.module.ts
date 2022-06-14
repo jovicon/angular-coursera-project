@@ -8,10 +8,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TripDestinationComponent } from './trip-destination/trip-destination.component';
-import { ListDestinationComponent } from './list-destination/list-destination.component';
-import { DestinationDetailComponent } from './destination-detail/destination-detail.component';
-import { FormTripDestinationComponent } from './form-trip-destination/form-trip-destination.component';
+import { TripDestinationComponent } from './components/trip-destination/trip-destination.component';
+import { ListDestinationComponent } from './components/list-destination/list-destination.component';
+import { DestinationDetailComponent } from './components/destination-detail/destination-detail.component';
+import { FormTripDestinationComponent } from './components/form-trip-destination/form-trip-destination.component';
 
 import { DestinationApiClient } from './models/destination-api-client.models';
 import {
@@ -21,6 +21,41 @@ import {
   TripDestinationEffects,
   TripDestinationActions,
 } from './models/destination-trips.state.model';
+import { LoginComponent } from './components/login/login/login.component';
+import { ProtectedComponent } from './components/protected/protected/protected.component';
+
+import { AuthService } from 'src/app/services/auth.service';
+import { LoggedUserGuard } from 'src/app/guards/logged-user/logged-user.guard';
+import { FlightsComponentComponent } from './components/flights/flights-component/flights-component.component';
+import { FlightsMainComponentComponent } from './components/flights/flights-main-component/flights-main-component.component';
+import { FlightsMoreInfoComponentComponent } from './components/flights/flights-more-info-component/flights-more-info-component.component';
+import { FlightsDetailsComponentComponent } from './components/flights/flights-details-component/flights-details-component.component';
+import { ReservesModule } from './reserves/reserves.module';
+
+export const childredFlightsRoutes: Routes = [
+  {
+    path: '',
+    component: FlightsMainComponentComponent,
+    // children: [
+    //   {
+    //     path: '',
+    //     component: FlightsComponentComponent,
+    //   },
+    //   {
+    //     path: ':id',
+    //     component: FlightsDetailsComponentComponent,
+    //   },
+    // ],
+  },
+  {
+    path: 'more-info',
+    component: FlightsMoreInfoComponentComponent,
+  },
+  {
+    path: ':id',
+    component: FlightsDetailsComponentComponent,
+  },
+];
 
 const routes: Routes = [
   {
@@ -33,8 +68,20 @@ const routes: Routes = [
     component: ListDestinationComponent,
   },
   {
-    path: 'destiny',
+    path: 'destiny/:id',
     component: DestinationDetailComponent,
+  },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'protected',
+    component: ProtectedComponent,
+    canActivate: [LoggedUserGuard],
+  },
+  {
+    path: 'flights',
+    component: FlightsComponentComponent,
+    children: childredFlightsRoutes,
+    canActivate: [LoggedUserGuard],
   },
 ];
 
@@ -57,6 +104,12 @@ const reducerInitialState = {
     ListDestinationComponent,
     DestinationDetailComponent,
     FormTripDestinationComponent,
+    LoginComponent,
+    ProtectedComponent,
+    FlightsComponentComponent,
+    FlightsMainComponentComponent,
+    FlightsMoreInfoComponentComponent,
+    FlightsDetailsComponentComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,8 +137,9 @@ const reducerInitialState = {
       maxAge: 25,
       logOnly: true,
     }),
+    ReservesModule,
   ],
-  providers: [DestinationApiClient],
+  providers: [DestinationApiClient, AuthService, LoggedUserGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -26,6 +26,35 @@ import { ProtectedComponent } from './components/protected/protected/protected.c
 
 import { AuthService } from 'src/app/services/auth.service';
 import { LoggedUserGuard } from 'src/app/guards/logged-user/logged-user.guard';
+import { FlightsComponentComponent } from './components/flights/flights-component/flights-component.component';
+import { FlightsMainComponentComponent } from './components/flights/flights-main-component/flights-main-component.component';
+import { FlightsMoreInfoComponentComponent } from './components/flights/flights-more-info-component/flights-more-info-component.component';
+import { FlightsDetailsComponentComponent } from './components/flights/flights-details-component/flights-details-component.component';
+
+export const childredFlightsRoutes: Routes = [
+  {
+    path: '',
+    component: FlightsMainComponentComponent,
+    // children: [
+    //   {
+    //     path: '',
+    //     component: FlightsComponentComponent,
+    //   },
+    //   {
+    //     path: ':id',
+    //     component: FlightsDetailsComponentComponent,
+    //   },
+    // ],
+  },
+  {
+    path: 'more-info',
+    component: FlightsMoreInfoComponentComponent,
+  },
+  {
+    path: ':id',
+    component: FlightsDetailsComponentComponent,
+  },
+];
 
 const routes: Routes = [
   {
@@ -45,6 +74,12 @@ const routes: Routes = [
   {
     path: 'protected',
     component: ProtectedComponent,
+    canActivate: [LoggedUserGuard],
+  },
+  {
+    path: 'flights',
+    component: FlightsComponentComponent,
+    children: childredFlightsRoutes,
     canActivate: [LoggedUserGuard],
   },
 ];
@@ -70,6 +105,10 @@ const reducerInitialState = {
     FormTripDestinationComponent,
     LoginComponent,
     ProtectedComponent,
+    FlightsComponentComponent,
+    FlightsMainComponentComponent,
+    FlightsMoreInfoComponentComponent,
+    FlightsDetailsComponentComponent,
   ],
   imports: [
     BrowserModule,

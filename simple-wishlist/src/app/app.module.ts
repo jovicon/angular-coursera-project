@@ -30,6 +30,7 @@ import { FlightsComponentComponent } from './components/flights/flights-componen
 import { FlightsMainComponentComponent } from './components/flights/flights-main-component/flights-main-component.component';
 import { FlightsMoreInfoComponentComponent } from './components/flights/flights-more-info-component/flights-more-info-component.component';
 import { FlightsDetailsComponentComponent } from './components/flights/flights-details-component/flights-details-component.component';
+import { ReservesModule } from './reserves/reserves.module';
 
 export const childredFlightsRoutes: Routes = [
   {
@@ -136,6 +137,7 @@ const reducerInitialState = {
       maxAge: 25,
       logOnly: true,
     }),
+    ReservesModule,
   ],
   providers: [DestinationApiClient, AuthService, LoggedUserGuard],
   bootstrap: [AppComponent],

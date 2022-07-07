@@ -29,3 +29,18 @@ https://stackoverflow.com/questions/57591012/ngrx-cannot-assign-to-read-only-pro
 ## Extra
 
 [Deep Clone object](https://www.leonelngande.com/deep-cloning-objects-in-angular-typescript-javascript/)
+
+## CREATING GUARDS - Login example
+
+### Create a new guard
+
+- sudo ng g guard guards/logged-user/logged-user
+
+### Create a new service
+
+- sudo ng g s services/auth
+
+### Create a new components
+
+- login: sudo ng g c components/login/login
+- protector: sudo ng g c components/login/login

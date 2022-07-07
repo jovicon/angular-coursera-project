@@ -13,7 +13,6 @@ import { ListDestinationComponent } from './components/list-destination/list-des
 import { DestinationDetailComponent } from './components/destination-detail/destination-detail.component';
 import { FormTripDestinationComponent } from './components/form-trip-destination/form-trip-destination.component';
 
-import { DestinationApiClient } from './models/destination-api-client.models';
 import {
   TripDestinationState,
   reducerTripDestination,
@@ -36,16 +35,6 @@ export const childredFlightsRoutes: Routes = [
   {
     path: '',
     component: FlightsMainComponentComponent,
-    // children: [
-    //   {
-    //     path: '',
-    //     component: FlightsComponentComponent,
-    //   },
-    //   {
-    //     path: ':id',
-    //     component: FlightsDetailsComponentComponent,
-    //   },
-    // ],
   },
   {
     path: 'more-info',
@@ -139,7 +128,7 @@ const reducerInitialState = {
     }),
     ReservesModule,
   ],
-  providers: [DestinationApiClient, AuthService, LoggedUserGuard],
+  providers: [AuthService, LoggedUserGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

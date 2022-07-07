@@ -14,6 +14,7 @@ import { DestinationApiClient } from '../../models/destination-api-client.models
   selector: 'app-list-destination',
   templateUrl: './list-destination.component.html',
   styleUrls: ['./list-destination.component.scss'],
+  providers: [DestinationApiClient],
 })
 export class ListDestinationComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<TripDestination>;

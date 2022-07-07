@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Inject,
+  forwardRef,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -17,6 +24,8 @@ import { ajax } from 'rxjs/ajax';
 
 import { TripDestination } from '../../models/trip-destination.models';
 
+import { APP_CONFIG, AppConfig } from 'src/app/app.module';
+
 @Component({
   selector: 'app-form-trip-destination',
   templateUrl: './form-trip-destination.component.html',
@@ -28,7 +37,10 @@ export class FormTripDestinationComponent implements OnInit {
   minLong: number = 5;
   searchResults: string[] = [];
 
-  constructor(fb: FormBuilder) {
+  constructor(
+    fb: FormBuilder,
+    @Inject(forwardRef(() => APP_CONFIG)) private config: AppConfig
+  ) {
     this.onItemAdded = new EventEmitter();
     this.fg = fb.group({
       name: ['', Validators.compose([Validators.required, this.nameValidator])],
@@ -44,12 +56,20 @@ export class FormTripDestinationComponent implements OnInit {
         filter((text) => text.length > 2),
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(() => ajax('/assets/data.json'))
+        switchMap((text: string) =>
+          ajax(`${this.config.apiEndpoint}/destinations?search=${text}`)
+        )
       )
       .subscribe((response: any) => {
-        console.log(response);
+        console.log('ngOnInit: ', response);
         this.searchResults = response.response;
       });
+    //   switchMap(() => ajax('/assets/data.json'))
+    // )
+    // .subscribe((response: any) => {
+    //   console.log(response);
+    //   this.searchResults = response.response;
+    // });
   }
 
   save = (name: string, url: string): boolean => {

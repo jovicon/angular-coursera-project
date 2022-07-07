@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +30,16 @@ import { FlightsMainComponentComponent } from './components/flights/flights-main
 import { FlightsMoreInfoComponentComponent } from './components/flights/flights-more-info-component/flights-more-info-component.component';
 import { FlightsDetailsComponentComponent } from './components/flights/flights-details-component/flights-details-component.component';
 import { ReservesModule } from './reserves/reserves.module';
+
+export interface AppConfig {
+  apiEndpoint: string;
+}
+
+const APP_CONFIG_VALUE: AppConfig = {
+  apiEndpoint: 'http://localhost:3000',
+};
+
+export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 export const childredFlightsRoutes: Routes = [
   {
@@ -128,7 +138,11 @@ const reducerInitialState = {
     }),
     ReservesModule,
   ],
-  providers: [AuthService, LoggedUserGuard],
+  providers: [
+    AuthService,
+    LoggedUserGuard,
+    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
